@@ -27,6 +27,7 @@ public class UserCreateServiceImpl implements UserCreateService {
     validationGuest(user);
     user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
 
+    //TODO: payment impl
     return userRepository.save(user);
   }
 
@@ -34,6 +35,8 @@ public class UserCreateServiceImpl implements UserCreateService {
   public User createUserFromGoogle(String name) {
     User user = new User();
     user.setUserName(name);
+
+    //TODO: payment impl
     return userRepository.save(user);
   }
 

@@ -8,7 +8,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.client.HttpClientErrorException;
@@ -50,20 +49,10 @@ public class AuthorizationController {
   }
 
   @RequestMapping("api/v1/login")
-  public String login(Model model) {
+  public ResponseEntity<Map<String, String>> login() {
     oauth2Utils.setOauth2AuthenticationUrls(oauth2AuthenticationUrls);
-    model.addAttribute("urls", oauth2AuthenticationUrls);
 
-    return "login";
-  }
-
-  @RequestMapping("api/v1/login-error")
-  public String loginError(Model model) {
-    oauth2Utils.setOauth2AuthenticationUrls(oauth2AuthenticationUrls);
-    model.addAttribute("urls", oauth2AuthenticationUrls);
-    model.addAttribute("loginError", true);
-
-    return "login";
+    return ResponseEntity.ok().body(oauth2AuthenticationUrls);
   }
 
   private User getUserByUserNameOrThrowException(String userName) throws RuntimeException {

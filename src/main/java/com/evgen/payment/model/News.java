@@ -17,6 +17,6 @@ import lombok.Setter;
 public class News {
 
   private String text;
-  private Boolean isPremium;
+  private Boolean isPremium = false;
 
 }
