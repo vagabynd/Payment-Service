@@ -31,6 +31,8 @@
     <org.mapstruct.version>1.3.0.Final</org.mapstruct.version>
     <swagger.verison>2.9.2</swagger.verison>
     <spring-security.version>5.1.1.RELEASE</spring-security.version>
+    <tomcat-jdbc.version>7.0.35</tomcat-jdbc.version>
+    <mongodb.version>2.1.0.RELEASE</mongodb.version>
   </properties>
 
   <dependencies>
@@ -58,6 +60,12 @@
       <optional>true</optional>
     </dependency>
 
+    <dependency>
+      <groupId>org.springframework.data</groupId>
+      <artifactId>spring-data-mongodb</artifactId>
+      <version>${mongodb.version}</version>
+    </dependency>
+
     <!--spring-security-->
 
     <dependency>
@@ -72,16 +80,6 @@
       <version>${spring-security.version}</version>
     </dependency>
 
-    <!--AspectJ-->
-    <dependency>
-      <groupId>org.aspectj</groupId>
-      <artifactId>aspectjrt</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>org.aspectj</groupId>
-      <artifactId>aspectjweaver</artifactId>
-    </dependency>
-
     <!--bean validation-->
     <dependency>
       <groupId>javax.validation</groupId>
@@ -93,19 +91,6 @@
       <groupId>javax.servlet</groupId>
       <artifactId>javax.servlet-api</artifactId>
       <scope>provided</scope>
-    </dependency>
-
-    <!--JWT-->
-    <dependency>
-      <groupId>io.jsonwebtoken</groupId>
-      <artifactId>jjwt</artifactId>
-      <version>${jjwt.version}</version>
-    </dependency>
-
-    <!--DataBase-->
-    <dependency>
-      <groupId>mysql</groupId>
-      <artifactId>mysql-connector-java</artifactId>
     </dependency>
 
     <!--Lombok-->
@@ -127,6 +112,13 @@
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter-test</artifactId>
       <scope>test</scope>
+    </dependency>
+
+    <!--database-->
+    <dependency>
+      <groupId>org.mongodb</groupId>
+      <artifactId>mongo-java-driver</artifactId>
+      <version>3.8.2</version>
     </dependency>
 
   </dependencies>
