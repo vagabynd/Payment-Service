@@ -48,6 +48,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     return new BCryptPasswordEncoder(11);
   }
 
+  //TODO: not working
   @Override
   protected void configure(final HttpSecurity http) throws Exception {
     http
@@ -60,7 +61,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         .formLogin()
         .loginPage("api/v1/login").permitAll()
         .defaultSuccessUrl("api/v1/users", true)
-        .failureUrl("api/v1/login-error")
+        .failureUrl("api/v1/login")
         .and()
         .logout()
         .logoutSuccessUrl("api/v1/login")
