@@ -11,7 +11,9 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.oauth2.client.CommonOAuth2Provider;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -24,6 +26,8 @@ import org.springframework.security.oauth2.client.registration.InMemoryClientReg
 import com.evgen.payment.service.UserDetailsServiceImpl;
 
 @Configuration
+@EnableWebSecurity
+@EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
   private static List<String> clients = Collections.singletonList("google");
@@ -48,26 +52,20 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     return new BCryptPasswordEncoder(11);
   }
 
-  //TODO: not working
   @Override
   protected void configure(final HttpSecurity http) throws Exception {
     http
+        .csrf().disable()
         .authorizeRequests()
-        .antMatchers("api/v1/registration", "api/v1/error-registration").anonymous()
-        .antMatchers("api/v1/oauth_login").permitAll()
-        .antMatchers(HttpMethod.POST, "api/v1/users").anonymous()
-        .antMatchers("/**").access("hasRole('ROLE_USER')")
+        .antMatchers("/oauth_login").permitAll()
+        .antMatchers(HttpMethod.POST, "/api/v1/users").permitAll()
+        .antMatchers("/api/v1/news").access("hasRole('ROLE_USER')")
         .and()
         .formLogin()
-        .loginPage("api/v1/login").permitAll()
-        .defaultSuccessUrl("api/v1/users", true)
-        .failureUrl("api/v1/login")
-        .and()
-        .logout()
-        .logoutSuccessUrl("api/v1/login")
+        .loginPage("/api/v1/login").permitAll()
         .and()
         .oauth2Login()
-        .loginPage("api/v1/login");
+        .loginPage("/api/v1/login").permitAll();
   }
 
   @Bean

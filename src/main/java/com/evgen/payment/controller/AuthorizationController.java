@@ -9,6 +9,8 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.client.HttpClientErrorException;
 
@@ -48,7 +50,13 @@ public class AuthorizationController {
     }
   }
 
-  @RequestMapping("api/v1/login")
+  @PostMapping("api/v1/users")
+  public ResponseEntity<User> createUser(@RequestBody User user) {
+    return ResponseEntity.ok().body(userCreateServiceImpl.createUser(user));
+  }
+
+
+  @RequestMapping("api/v1/url")
   public ResponseEntity<Map<String, String>> login() {
     oauth2Utils.setOauth2AuthenticationUrls(oauth2AuthenticationUrls);
 

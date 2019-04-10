@@ -16,7 +16,7 @@ public class NewsController {
     this.vkNewsService = vkNewsService;
   }
 
-  @GetMapping("/api/v1/news/")
+  @GetMapping("/api/v1/news")
   public ResponseEntity<News> getNews() {
     return ResponseEntity.ok().body(vkNewsService.getVkNews());
   }
