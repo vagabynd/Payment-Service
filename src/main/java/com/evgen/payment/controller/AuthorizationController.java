@@ -50,6 +50,7 @@ public class AuthorizationController {
     }
   }
 
+  //регать туда
   @PostMapping("api/v1/users")
   public ResponseEntity<User> createUser(@RequestBody User user) {
     return ResponseEntity.ok().body(userCreateServiceImpl.createUser(user));

@@ -13,7 +13,6 @@ import lombok.Setter;
 @Builder
 public class News {
 
-  private String text;
   private Boolean isPremium = false;
 
 }

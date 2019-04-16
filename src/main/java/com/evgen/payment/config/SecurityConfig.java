@@ -57,12 +57,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     http
         .csrf().disable()
         .authorizeRequests()
-        .antMatchers("/oauth_login").permitAll()
         .antMatchers(HttpMethod.POST, "/api/v1/users").permitAll()
-        .antMatchers("/api/v1/news").access("hasRole('ROLE_USER')")
-        .and()
-        .formLogin()
-        .loginPage("/api/v1/login").permitAll()
+        .antMatchers("/api/v1/news").permitAll()
         .and()
         .oauth2Login()
         .loginPage("/api/v1/login").permitAll();

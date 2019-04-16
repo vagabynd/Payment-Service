@@ -22,13 +22,13 @@ public class VkNewsServiceImpl implements VkNewsService {
     this.userRepository = userRepository;
   }
 
-  public News getVkNews() {
-    Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+  public News getVkNews(User user) {
+
+
     News news = new News();
-    news.setText(restTemplate.getForObject(URL, String.class));
 
     try {
-      userRepository.findByUserName(authentication.getName())
+      userRepository.findByUserName(user.getUserName())
           .orElseThrow(() -> new RuntimeException("User is not premium"));
       news.setIsPremium(true);
     } catch (RuntimeException e) {
