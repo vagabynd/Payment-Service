@@ -1,5 +1,6 @@
 package com.evgen.payment.controller;
 
+import java.security.Principal;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -8,18 +9,20 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.client.HttpClientErrorException;
 
+import com.evgen.payment.model.Pay;
 import com.evgen.payment.model.User;
 import com.evgen.payment.repository.UserRepository;
 import com.evgen.payment.service.api.UserCreateService;
 import com.evgen.payment.utils.Oauth2Utils;
 
 @Controller
+@CrossOrigin
 public class AuthorizationController {
 
   private final UserCreateService userCreateServiceImpl;
@@ -36,30 +39,30 @@ public class AuthorizationController {
   }
 
   //registration and payment google user
-  @GetMapping("api/v1/users")
-  public ResponseEntity<User> retrieveUser() {
+  @PostMapping("api/v1/users")
+  public ResponseEntity<User> retrieveUser(@RequestBody Pay pay) {
     Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+    if (authentication.getPrincipal().equals("anonymousUser")) {
+      return ResponseEntity.ok().body(null);
+    }
     try {
       User user = getUserByUserNameOrThrowException(authentication.getName());
       return ResponseEntity.ok().body(user);
-    } catch (HttpClientErrorException e) {
-      if (authentication == null) {
-        return ResponseEntity.ok().body(null);
-      }
-      User user = userCreateServiceImpl.createUserFromGoogle(authentication.getName());
+    } catch (RuntimeException e) {
+      User user = userCreateServiceImpl.createUserFromGoogle(authentication.getName(), pay);
       return ResponseEntity.ok().body(user);
     }
   }
 
   //registration and payment simply user
   @PostMapping("api/v1/users")
-  public ResponseEntity<User> createUser(@RequestBody User user) {
-    return ResponseEntity.ok().body(userCreateServiceImpl.createUser(user));
+  public ResponseEntity<User> createUser(@RequestBody User user, Pay pay) {
+    return ResponseEntity.ok().body(userCreateServiceImpl.createUser(user, pay));
   }
 
   //get url for google auth
   @RequestMapping("api/v1/url")
-  public ResponseEntity<Map<String, String>> login() {
+  public ResponseEntity<Map<String, String>> getUrl() {
     oauth2Utils.setOauth2AuthenticationUrls(oauth2AuthenticationUrls);
 
     return ResponseEntity.ok().body(oauth2AuthenticationUrls);
@@ -69,4 +72,12 @@ public class AuthorizationController {
     return userRepository.findByUserName(userName)
         .orElseThrow(() -> new RuntimeException(String.format("User with name %s not found", userName)));
   }
+
+  @GetMapping("/")
+  public ResponseEntity<Object> login() {
+    Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+    return ResponseEntity.ok().body(authentication.getPrincipal());
+  }
+
 }

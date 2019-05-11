@@ -5,6 +5,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ServerWebInputException;
 
+import com.evgen.payment.model.Pay;
 import com.evgen.payment.model.User;
 import com.evgen.payment.repository.UserRepository;
 import com.evgen.payment.service.api.UserCreateService;
@@ -23,7 +24,7 @@ public class UserCreateServiceImpl implements UserCreateService {
   }
 
   @Override
-  public User createUser(User user) {
+  public User createUser(User user, Pay pay) {
     validationUser(user);
     user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
 
@@ -38,7 +39,7 @@ public class UserCreateServiceImpl implements UserCreateService {
   }
 
   @Override
-  public User createUserFromGoogle(String name) {
+  public User createUserFromGoogle(String name, Pay pay) {
     User user = new User();
     user.setUserName(name);
 
