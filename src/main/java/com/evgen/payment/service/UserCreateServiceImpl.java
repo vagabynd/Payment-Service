@@ -24,7 +24,7 @@ public class UserCreateServiceImpl implements UserCreateService {
 
   @Override
   public User createUser(User user) {
-    validationGuest(user);
+    validationUser(user);
     user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
 
     //TODO: payment impl
@@ -52,7 +52,7 @@ public class UserCreateServiceImpl implements UserCreateService {
     return null;
   }
 
-  private void validationGuest(User user) {
+  private void validationUser(User user) {
     if (StringUtils.isBlank(user.getUserName()) || StringUtils.isBlank(user.getPassword())) {
       throw new ServerWebInputException("Bad user request");
     }
