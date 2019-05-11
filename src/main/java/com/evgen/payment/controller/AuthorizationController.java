@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.evgen.payment.model.CreateUserRequest;
 import com.evgen.payment.model.Pay;
 import com.evgen.payment.model.User;
 import com.evgen.payment.repository.UserRepository;
@@ -38,26 +39,21 @@ public class AuthorizationController {
     this.oauth2Utils = oauth2Utils;
   }
 
-  //registration and payment google user
+  //registration and payment simply and google user
   @PostMapping("api/v1/users")
-  public ResponseEntity<User> retrieveUser(@RequestBody Pay pay) {
+  public ResponseEntity<User> retrieveUser(@RequestBody CreateUserRequest createUserRequest) {
     Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
     if (authentication.getPrincipal().equals("anonymousUser")) {
-      return ResponseEntity.ok().body(null);
+      ResponseEntity.ok().body(userCreateServiceImpl.createUser(createUserRequest.getUser(), createUserRequest.getPay()));
     }
     try {
       User user = getUserByUserNameOrThrowException(authentication.getName());
       return ResponseEntity.ok().body(user);
     } catch (RuntimeException e) {
-      User user = userCreateServiceImpl.createUserFromGoogle(authentication.getName(), pay);
+      User user = userCreateServiceImpl.createUserFromGoogle(authentication.getName(), createUserRequest.getPay());
       return ResponseEntity.ok().body(user);
     }
-  }
-
-  //registration and payment simply user
-  @PostMapping("api/v1/users")
-  public ResponseEntity<User> createUser(@RequestBody User user, Pay pay) {
-    return ResponseEntity.ok().body(userCreateServiceImpl.createUser(user, pay));
   }
 
   //get url for google auth

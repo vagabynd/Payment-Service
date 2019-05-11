@@ -115,6 +115,18 @@
       <scope>test</scope>
     </dependency>
 
+    <!--Swagger-->
+    <dependency>
+      <groupId>io.springfox</groupId>
+      <artifactId>springfox-swagger2</artifactId>
+      <version>${swagger.verison}</version>
+    </dependency>
+    <dependency>
+      <groupId>io.springfox</groupId>
+      <artifactId>springfox-swagger-ui</artifactId>
+      <version>${swagger.verison}</version>
+    </dependency>
+
     <!--database-->
     <dependency>
       <groupId>org.mongodb</groupId>
