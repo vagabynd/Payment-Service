@@ -32,7 +32,6 @@
     <swagger.verison>2.9.2</swagger.verison>
     <spring-security.version>5.1.1.RELEASE</spring-security.version>
     <tomcat-jdbc.version>7.0.35</tomcat-jdbc.version>
-    <mongodb.version>2.1.0.RELEASE</mongodb.version>
     <httpclient.verison>4.5.2</httpclient.verison>
   </properties>
 
