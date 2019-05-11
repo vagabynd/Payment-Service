@@ -28,7 +28,13 @@ public class UserCreateServiceImpl implements UserCreateService {
     user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
 
     //TODO: payment impl
-    return userRepository.save(user);
+    //https://stripe.com/docs
+    //https://habr.com/ru/post/138869/
+    //https://habr.com/ru/company/payonline/blog/195854/
+    if(true) {
+      return userRepository.save(user);
+    }
+    return null;
   }
 
   @Override
@@ -37,7 +43,13 @@ public class UserCreateServiceImpl implements UserCreateService {
     user.setUserName(name);
 
     //TODO: payment impl
-    return userRepository.save(user);
+    //https://stripe.com/docs
+    //https://habr.com/ru/post/138869/
+    //https://habr.com/ru/company/payonline/blog/195854/
+    if(true) {
+      return userRepository.save(user);
+    }
+    return null;
   }
 
   private void validationGuest(User user) {

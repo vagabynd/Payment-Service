@@ -35,6 +35,7 @@ public class AuthorizationController {
     this.oauth2Utils = oauth2Utils;
   }
 
+  //registration and payment google user
   @GetMapping("api/v1/users")
   public ResponseEntity<User> retrieveUser() {
     Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -50,13 +51,13 @@ public class AuthorizationController {
     }
   }
 
-  //регать туда
+  //registration and payment simply user
   @PostMapping("api/v1/users")
   public ResponseEntity<User> createUser(@RequestBody User user) {
     return ResponseEntity.ok().body(userCreateServiceImpl.createUser(user));
   }
 
-
+  //get url for google auth
   @RequestMapping("api/v1/url")
   public ResponseEntity<Map<String, String>> login() {
     oauth2Utils.setOauth2AuthenticationUrls(oauth2AuthenticationUrls);

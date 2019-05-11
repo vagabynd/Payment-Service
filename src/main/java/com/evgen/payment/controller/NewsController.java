@@ -19,7 +19,7 @@ public class NewsController {
     this.vkNewsService = vkNewsService;
   }
 
-  //сюда
+  //get news with isPremium flag
   @PostMapping("/api/v1/news")
   public ResponseEntity<News> getNews(@RequestBody User user) {
     return ResponseEntity.ok().body(vkNewsService.getVkNews(user));
