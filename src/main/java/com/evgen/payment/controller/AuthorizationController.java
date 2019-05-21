@@ -45,7 +45,7 @@ public class AuthorizationController {
     Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
     if (authentication.getPrincipal().equals("anonymousUser")) {
-      ResponseEntity.ok().body(userCreateServiceImpl.createUser(createUserRequest.getUser(), createUserRequest.getPay()));
+      return ResponseEntity.ok().body(userCreateServiceImpl.createUser(createUserRequest.getUser(), createUserRequest.getPay()));
     }
     try {
       User user = getUserByUserNameOrThrowException(authentication.getName());
